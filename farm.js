@@ -38,7 +38,10 @@ const getCostsForCrop = (plant) => {
 
 
 // Calculate the revenue for a crop (without environmental factors)
-const getRevenueForCrop = () => {}
+const getRevenueForCrop = (vegetable) => {
+    const revenue = vegetable.salePrice * vegetable.kilosSold;
+    return revenue;
+}
 
 
 
@@ -47,7 +50,7 @@ module.exports = {
   getYieldForCrop,
   getTotalYield,
   getCostsForCrop,
-  // getRevenueForCrop,
+  getRevenueForCrop,
   // getProfitForCrop,
   // getTotalProfit
 };
