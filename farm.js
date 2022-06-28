@@ -1,19 +1,22 @@
 // Get yield for plant with environment factors
-const getYieldForPlant = (plant, environment) => {
+const getYieldForPlant = (plant, factors) => {
   let getYield;
-  console.log("plant.factor", plant.factor)
-	console.log("plant.factor.sun", plant.factor.sun)
-  if (plant.factor.sun.medium && plant.factor.wind.low) {
+  let sunValue = factors.sun;
+  let windValue = factors.wind;
+  console.log("Sun value", sunValue)
+  console.log("Wind value", windValue)
+  if (plant.factor === undefined) {
     // yield with NO environmental factors
     getYield = plant.yield;
   } else {
     // yield WITH environmental factors
-    getYield = plant.yield * environmentFactor.sun * environmentFactor.wind;
+    getYield = plant.yield //* (plant.factor.sun.sunValue/100) * (factors.wind/100);
   }
+  console.log("factors", factors);
+  console.log("factors.sun.low", plant.factor.sun.sunValue);
+  console.log("factors", plant.factor.wind.windValue);
   return getYield;
 };
-getYieldForPlant();
-console.log("hello");
 
 // Get yield for crop, simple
 const getYieldForCrop = (vegetable) => {
@@ -47,16 +50,15 @@ const getProfitForCrop = (vegetable) => {
 };
 
 // Calculate the profit for multiple crops (without environmental factors)
-const getTotalProfit = (crops) => {
-  const arrayOfProfit = []; //create an empty array 
-  arrayOfProfit.push(getProfitForCrop(crops.vegetable)); //push the profit of each crop into the array
-  arrayOfProfit.reduce((previousValue, currentValue) => {
-    return previousValue + currentValue;
-  });
-  return arrayOfProfit;
-};
+// const getTotalProfit = (crops) => {
+//   const arrayOfProfit = []; //create an empty array 
+//   arrayOfProfit.push(getProfitForCrop(crops.vegetable)); //push the profit of each crop into the array
+//   arrayOfProfit.reduce((previousValue, currentValue) => {
+//     return previousValue + currentValue;
+//   });
+//   return arrayOfProfit;
+// };
 
-// getTotalProfit();
 
 module.exports = {
   getYieldForPlant,
@@ -65,7 +67,7 @@ module.exports = {
   getCostsForCrop,
   getRevenueForCrop,
   getProfitForCrop,
-  getTotalProfit,
+  // getTotalProfit,
 };
 
 // const getCostsForCrop = (vegetable) => {

@@ -20,23 +20,23 @@ describe("getYieldForPlant", () => {
         high: 50,
       },
       wind: {
-        low: 0, 
-        medium: -30, 
-        high: -60
+        low: 0,
+        medium: -30,
+        high: -60,
       },
     },
   };
+
 
   test("Get yield for plant with NO environmental factors", () => {
     expect(getYieldForPlant(corn)).toBe(30);
   });
 
-  const environmentFactors = {
-    sun: "low", wind: "medium",
-  };
+  const environmentFactors = 
+    {sun: "low", wind: "medium" };
 
-  test("Get yield for plant with environmental factors", () => {
-    expect(getYieldForPlant(corn)).toBe(10.5);
+  test("Get yield for plant WITH environmental factors", () => {
+    expect(getYieldForPlant(corn, environmentFactors)).toBe(10.5);
   });
 });
 
@@ -187,41 +187,41 @@ describe("getProfitForCrop", () => {
 });
 
 // Functionality 4: calculate the profit for multiple crops (without environmental factors)
-describe("getTotalProfit", () => {
-  test("calculate the profit for multiple crops", () => {
-    const corn = {
-      name: "corn",
-      yield: 3,
-      sowingPrice: 1,
-      plantsPerCrop: 30,
-      numCrops: 5,
-      salePrice: 2,
-    };
+// describe("getTotalProfit", () => {
+//   test("calculate the profit for multiple crops", () => {
+//     const corn = {
+//       name: "corn",
+//       yield: 3,
+//       sowingPrice: 1,
+//       plantsPerCrop: 30,
+//       numCrops: 5,
+//       salePrice: 2,
+//     };
 
-    const pumpkin = {
-      name: "pumpkin",
-      yield: 4,
-      sowingPrice: 1,
-      plantsPerCrop: 35,
-      numCrops: 2,
-      salePrice: 2,
-    };
+//     const pumpkin = {
+//       name: "pumpkin",
+//       yield: 4,
+//       sowingPrice: 1,
+//       plantsPerCrop: 35,
+//       numCrops: 2,
+//       salePrice: 2,
+//     };
 
-    const tomatoes = {
-      name: "tomatoes",
-      yield: 3,
-      sowingPrice: 1,
-      plantsPerCrop: 40,
-      numCrops: 4,
-      salePrice: 1.5,
-    };
+//     const tomatoes = {
+//       name: "tomatoes",
+//       yield: 3,
+//       sowingPrice: 1,
+//       plantsPerCrop: 40,
+//       numCrops: 4,
+//       salePrice: 1.5,
+//     };
 
-    const crops = [
-      { vegetable: corn },
-      { vegetable: pumpkin },
-      { vegetable: tomatoes },
-    ];
+//     const crops = [
+//       { vegetable: corn },
+//       { vegetable: pumpkin },
+//       { vegetable: tomatoes },
+//     ];
 
-    expect(getTotalProfit({ crops })).toBe(1800);
-  });
-});
+//     expect(getTotalProfit({ crops })).toBe(1800);
+//   });
+// });
