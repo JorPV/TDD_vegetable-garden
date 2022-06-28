@@ -3,15 +3,19 @@ const getYieldForPlant = (plant, factors) => {
   let getYield;
   let sunValue = factors.sun;
   let windValue = factors.wind;
-  console.log("Sun value", sunValue)
-  console.log("Wind value", windValue)
+  let fullYield = 100;
+  console.log("Sun value", sunValue);
+  console.log("Wind value", windValue);
   if (plant.factor === undefined) {
     // yield with NO environmental factors
     getYield = plant.yield;
   } else {
     // yield WITH environmental factors
 
-    getYield = plant.yield * ((100 -= plant.factor.sun.sunValue)/100) * ((100 -= plant.factor.wind.windValue)/100);
+    getYield =
+      plant.yield *
+      ((fullYield - plant.factor.sun.sunValue) / 100) *
+      ((fullYield - plant.factor.wind.windValue) / 100);
   }
   console.log("factors", factors);
   console.log("factors.sun.low", plant.factor.sun.sunValue);
@@ -44,7 +48,6 @@ const getRevenueForCrop = (vegetable) =>
   vegetable.salePrice *
   (vegetable.yield * vegetable.plantsPerCrop * vegetable.numCrops);
 
-
 // Calculate the profit for a crop (without environmental factors)
 const getProfitForCrop = (vegetable) => {
   return getRevenueForCrop(vegetable) - getCostsForCrop(vegetable);
@@ -52,14 +55,13 @@ const getProfitForCrop = (vegetable) => {
 
 // Calculate the profit for multiple crops (without environmental factors)
 // const getTotalProfit = (crops) => {
-//   const arrayOfProfit = []; //create an empty array 
+//   const arrayOfProfit = []; //create an empty array
 //   arrayOfProfit.push(getProfitForCrop(crops.vegetable)); //push the profit of each crop into the array
 //   arrayOfProfit.reduce((previousValue, currentValue) => {
 //     return previousValue + currentValue;
 //   });
 //   return arrayOfProfit;
 // };
-
 
 module.exports = {
   getYieldForPlant,
