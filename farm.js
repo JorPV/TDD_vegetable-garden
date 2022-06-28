@@ -1,5 +1,19 @@
-// Get yield for plant with no environment factors
-const getYieldForPlant = (plant) => plant.yield;
+// Get yield for plant with environment factors
+const getYieldForPlant = (plant, environment) => {
+  let getYield;
+  console.log("plant.factor", plant.factor)
+	console.log("plant.factor.sun", plant.factor.sun)
+  if (plant.factor.sun.medium && plant.factor.wind.low) {
+    // yield with NO environmental factors
+    getYield = plant.yield;
+  } else {
+    // yield WITH environmental factors
+    getYield = plant.yield * environmentFactor.sun * environmentFactor.wind;
+  }
+  return getYield;
+};
+getYieldForPlant();
+console.log("hello");
 
 // Get yield for crop, simple
 const getYieldForCrop = (vegetable) => {
@@ -18,32 +32,31 @@ const getTotalYield = (farmCropsYield) => {
 };
 
 // Calculate the cost for a crop
-const getCostsForCrop = (plant) => {
-  let costPerCrop = plant.sowingPrice *
-      plant.plantsPerCrop 
-    //   plant.numCrops;
-      return costPerCrop;
-  };
-
-
-// const getCostsForCrop = (plant) => {
-//   let costPerCrop = 0;
-//   plant.plantCrops.forEach((plantCrops) => {
-//    costPerCrop = plantCrops.crop.sowingPrice *
-//       plantCrops.crop.plantsPerCrop *
-//       plantCrops.numCrops;
-//   });
-//   return costPerCrop;
-// };
-
+const getCostsForCrop = (vegetable) =>
+  vegetable.sowingPrice * vegetable.plantsPerCrop * vegetable.numCrops;
 
 // Calculate the revenue for a crop (without environmental factors)
-const getRevenueForCrop = (vegetable) => {
-    const revenue = vegetable.salePrice * vegetable.kilosSold;
-    return revenue;
-}
+const getRevenueForCrop = (vegetable) =>
+  vegetable.salePrice *
+  (vegetable.yield * vegetable.plantsPerCrop * vegetable.numCrops);
 
 
+// Calculate the profit for a crop (without environmental factors)
+const getProfitForCrop = (vegetable) => {
+  return getRevenueForCrop(vegetable) - getCostsForCrop(vegetable);
+};
+
+// Calculate the profit for multiple crops (without environmental factors)
+const getTotalProfit = (crops) => {
+  const arrayOfProfit = []; //create an empty array 
+  arrayOfProfit.push(getProfitForCrop(crops.vegetable)); //push the profit of each crop into the array
+  arrayOfProfit.reduce((previousValue, currentValue) => {
+    return previousValue + currentValue;
+  });
+  return arrayOfProfit;
+};
+
+// getTotalProfit();
 
 module.exports = {
   getYieldForPlant,
@@ -51,6 +64,16 @@ module.exports = {
   getTotalYield,
   getCostsForCrop,
   getRevenueForCrop,
-  // getProfitForCrop,
-  // getTotalProfit
+  getProfitForCrop,
+  getTotalProfit,
 };
+
+// const getCostsForCrop = (vegetable) => {
+//   let costPerCrop = 0;
+//   vegetable.plantType.forEach((plantType) => {
+//    costPerCrop = plantType.crop.sowingPrice *
+//       plantType.crop.plantsPerCrop *
+//       plantType.numCrops;
+//   });
+//   return costPerCrop;
+// };
