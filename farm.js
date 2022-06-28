@@ -10,11 +10,12 @@ const getYieldForPlant = (plant, factors) => {
     getYield = plant.yield;
   } else {
     // yield WITH environmental factors
-    getYield = plant.yield //* (plant.factor.sun.sunValue/100) * (factors.wind/100);
+
+    getYield = plant.yield * ((100 -= plant.factor.sun.sunValue)/100) * ((100 -= plant.factor.wind.windValue)/100);
   }
   console.log("factors", factors);
   console.log("factors.sun.low", plant.factor.sun.sunValue);
-  console.log("factors", plant.factor.wind.windValue);
+  console.log("factors.wind.medium", plant.factor.wind.windValue);
   return getYield;
 };
 
