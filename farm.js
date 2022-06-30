@@ -1,32 +1,42 @@
 // Get yield for plant with environment factors
 const getYieldForPlant = (plant, factors) => {
   let getYield;
-  let sunValue = factors.sun;
-  let windValue = factors.wind;
-  let fullYield = 100;
-  console.log("Sun value", sunValue);
-  console.log("Wind value", windValue);
-  if (plant.factor === undefined) {
+  const fullYield = 100;
+  if (!factors) {
     // yield with NO environmental factors
     getYield = plant.yield;
+    return getYield;
   } else {
     // yield WITH environmental factors
-
-    getYield =
-      plant.yield *
-      ((fullYield - plant.factor.sun.sunValue) / 100) *
-      ((fullYield - plant.factor.wind.windValue) / 100);
+    let sunValue = factors.sun;
+    let windValue = factors.wind;
+    if (sunValue === "low" || sunValue === "medium") {
+      getYield =
+        plant.yield *
+        ((fullYield - Math.abs(plant.factor.sun[sunValue])) / 100) *
+        ((fullYield - Math.abs(plant.factor.wind[windValue])) / 100);
+    } else {
+      getYield =
+        plant.yield *
+        ((fullYield + plant.factor.sun[sunValue]) / 100) *
+        ((fullYield - Math.abs(plant.factor.wind[windValue])) / 100);
+    }
+    return getYield;
   }
-  console.log("factors", factors);
-  console.log("factors.sun.low", plant.factor.sun.sunValue);
-  console.log("factors.wind.medium", plant.factor.wind.windValue);
-  return getYield;
 };
 
-// Get yield for crop, simple
-const getYieldForCrop = (vegetable) => {
-  const yieldForCrop = vegetable.crop.yield * vegetable.numCrops;
-  return yieldForCrop;
+// Get yield for crop,
+const getYieldForCrop = (vegetable, factors) => {
+  let yieldPerCrop; 
+  if (!factors) {
+    yieldPerCrop = vegetable.crop.yield * vegetable.numCrops;
+    console.log(yieldPerCrop)
+    return yieldPerCrop;
+  } else {
+    yieldPerCrop = Math.round(getYieldForPlant(vegetable.crop, factors) * vegetable.numCrops);
+    console.log(yieldPerCrop);
+    return yieldPerCrop;
+  }; 
 };
 
 // Calculate total yield with multiple crops
@@ -54,14 +64,16 @@ const getProfitForCrop = (vegetable) => {
 };
 
 // Calculate the profit for multiple crops (without environmental factors)
-// const getTotalProfit = (crops) => {
-//   const arrayOfProfit = []; //create an empty array
-//   arrayOfProfit.push(getProfitForCrop(crops.vegetable)); //push the profit of each crop into the array
-//   arrayOfProfit.reduce((previousValue, currentValue) => {
-//     return previousValue + currentValue;
-//   });
-//   return arrayOfProfit;
-// };
+const getTotalProfit = (crops) => {
+  console.log(crops);
+  const profitPerCrop = { crops }.map(getRevenueForCrop(crops)); //push the profit of each crop into the array
+  console.log(profitPerCrop);
+  profitPerCrop.reduce((previousValue, currentValue) => {
+    const sumProfit = previousValue + currentValue;
+    return sumProfit;
+  });
+  return sumProfit;
+};
 
 module.exports = {
   getYieldForPlant,
@@ -72,13 +84,3 @@ module.exports = {
   getProfitForCrop,
   // getTotalProfit,
 };
-
-// const getCostsForCrop = (vegetable) => {
-//   let costPerCrop = 0;
-//   vegetable.plantType.forEach((plantType) => {
-//    costPerCrop = plantType.crop.sowingPrice *
-//       plantType.crop.plantsPerCrop *
-//       plantType.numCrops;
-//   });
-//   return costPerCrop;
-// };
